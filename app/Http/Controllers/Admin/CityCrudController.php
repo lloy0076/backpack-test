@@ -12,8 +12,10 @@ use App\Http\Requests\TestRequest as UpdateRequest;
 class CityCrudController extends AdminCrudController
 {
 
-    public function setUp()
+    public function setup()
     {
+        parent::setup();
+
         /*
         |--------------------------------------------------------------------------
         | BASIC CRUD INFORMATION

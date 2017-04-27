@@ -14,8 +14,13 @@
 Route::get('/', 'IndexController@index');
 Route::get('/home', '\Backpack\Base\app\Http\Controllers\AdminController@dashboard');
 
+Route::get('/test', 'IndexController@test');
+
 Route::group([
-    'middleware' => 'admin',
+    'middleware' => [
+        'admin',
+        'role:admin,access_backend',
+    ],
     'prefix'     => 'admin',
     'namespace'  => 'Admin',
 ],

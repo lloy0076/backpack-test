@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-//use Backpack\CRUD\app\Http\Controllers\CrudController;
-use App\Http\Controllers\AdminCrudController as AdminCrudController;
+use Backpack\CRUD\app\Http\Controllers\CrudController as AdminCrudController;
+//use App\Http\Controllers\AdminCrudController as AdminCrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\TestRequest as StoreRequest;
@@ -25,9 +25,7 @@ class CityCrudController extends AdminCrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/city');
         $this->crud->setEntityNameStrings('city', 'cities');
 
-        if ($this->crud->model->count() > 128) {
-            $this->crud->enableAjaxTable();
-        }
+        $this->crud->enableAjaxTable();
 
         $this->crud->query = $this->crud->query->withoutGlobalScopes();
 
@@ -75,6 +73,12 @@ class CityCrudController extends AdminCrudController
                     'label' => 'Comments',
                     'type'  => 'textarea',
                 ],
+				[
+					'name' => "image",
+					'label' => "City Image",
+					'type' => 'upload',
+					'upload' => true,
+        		],
         ];
 
         $this->crud->addFields($create_fields, 'create');
@@ -103,14 +107,17 @@ class CityCrudController extends AdminCrudController
                     'label' => 'Comments',
                     'type'  => 'textarea',
                 ],
+				[
+					'name' => "image",
+					'label' => "City Image",
+					'type' => 'upload',
+					'upload' => true,
+        		],
         ];
 
         $this->crud->addFields($update_fields, 'update');
 
         $this->crud->allowAccess('revisions');
-
-        $this->crud->removeButton('create');
-
 
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
@@ -143,7 +150,7 @@ class CityCrudController extends AdminCrudController
         // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('reorder');
 
         // ------ CRUD DETAILS ROW
-        // $this->crud->enableDetailsRow();
+        $this->crud->enableDetailsRow();
         // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('details_row');
         // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
 
@@ -179,6 +186,17 @@ class CityCrudController extends AdminCrudController
         // $this->crud->limit();
     }
 
+    public function showDetailsRow($id = null)
+    {
+        if (! isset($id)) {
+            return '<b>No Details</b>';
+        }
+
+        $city = $this->crud->model->findOrFail($id);
+
+        return '<b>Details for ' . htmlspecialchars($city->name) . '</b>';
+    }
+
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
@@ -195,5 +213,10 @@ class CityCrudController extends AdminCrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+
+    public function destroy($id)
+    {
+        dd($id);
     }
 }

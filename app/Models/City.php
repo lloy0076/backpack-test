@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes as SoftDeletes;
 
 use Illuminate\Database\Eloquent\Builder as Builder;
 
+use Illuminate\Support\Facades\Log as Log;
+
 use Backpack\CRUD\CrudTrait as CrudTrait;
 
 use Venturecraft\Revisionable\RevisionableTrait as RevisionableTrait;
@@ -29,6 +31,7 @@ class City extends Model
         'name',
         'phone_no',
         'description',
+        'image',
     ];
     // protected $hidden = [];
     //
@@ -39,6 +42,16 @@ class City extends Model
     ];
 
     protected $revisionCreationsEnabled = true;
+
+    public function setImageAttribute($value)
+    {
+        $attribute_name = "image";
+        $disk           = "uploads";
+
+        $destination_path = "/";
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
 
     /*
     |--------------------------------------------------------------------------

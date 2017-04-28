@@ -73,12 +73,19 @@ class CityCrudController extends AdminCrudController
                     'label' => 'Comments',
                     'type'  => 'textarea',
                 ],
-				[
-					'name' => "image",
-					'label' => "City Image",
-					'type' => 'upload',
-					'upload' => true,
-        		],
+                [
+                    'name'  => 'deleted_at',
+                    'label' => 'Deleted At',
+                    'type'  => 'datetime_picker',
+                    'date_picker_optons' => [
+                        'todayBtn' => true,
+                        'format'   => 'dd-mm-yy',
+                        'language' => 'en',
+                    ],
+                    'wrapper_attributes' => [
+                        'class' => 'form-group col-md-4',
+                    ],
+                ],
         ];
 
         $this->crud->addFields($create_fields, 'create');

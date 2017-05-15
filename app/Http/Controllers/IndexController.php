@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Dompdf\Dompdf as Dompdf;
-
 use Illuminate\Http\Request;
+
+use App\Http\Requests\MyUserRequest as StoreRequest;
 
 class IndexController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        return redirect('/admin/dashboard');
     }
 
-    public function test()
+    public function whatIsMyRequest()
     {
-        $view = 'Hi There';
-        
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($view);
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->set_option('isHtml5ParserEnabled', true);
+        $request = new StoreRequest();
 
-        $dompdf->stream();
+        if ($request instanceof \Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest) {
+            dump("It is a " . \Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest::class);
+        } else {
+            throw new \Exception('Not a ' . \Backpack\PermissionManager\app\Http\Requests\UserStoreCrudRequest::class);
+        }
     }
 }

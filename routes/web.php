@@ -12,19 +12,12 @@
 */
 
 Route::get('/', 'IndexController@index');
-Route::get('/home', '\Backpack\Base\app\Http\Controllers\AdminController@dashboard');
-
-Route::get('/test', 'IndexController@test');
+Route::get('/whatismyrequest', 'IndexController@whatIsMyRequest');
 
 Route::group([
-    'middleware' => [
-        'admin',
-        'role:admin,access_backend',
-    ],
-    'prefix'     => 'admin',
-    'namespace'  => 'Admin',
+        'prefix'     => 'admin',
+        'middleware' => 'admin',
 ],
-function ()
-{
-    CRUD::resource('city', 'CityCrudController');
+function () {
+    CRUD::resource('myuser', 'Admin\MyUserCrudController');
 });

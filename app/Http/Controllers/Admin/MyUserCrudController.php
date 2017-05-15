@@ -23,10 +23,8 @@ class MyUserCrudController extends UserCrudController
         parent::setup();
     }  
 
-    /*
     public function store(StoreRequest $request)
     {
         parent::store($request);
     }
-     */
 }
